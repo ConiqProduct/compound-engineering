@@ -35,7 +35,7 @@ agents/
 └── docs/       # Documentation agents
 
 commands/
-├── workflows/  # Core workflow commands (/plan, /review, /work, /codify)
+├── workflows/  # Core workflow commands (/plan, /review, /work, /compound)
 └── *.md        # Utility commands
 
 skills/

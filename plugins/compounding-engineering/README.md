@@ -74,7 +74,7 @@ Core workflow commands (use the short form for autocomplete):
 | `/plan` | Create implementation plans |
 | `/review` | Run comprehensive code reviews |
 | `/work` | Execute work items systematically |
-| `/codify` | Document solved problems for knowledge base |
+| `/compound` | Document solved problems to compound team knowledge |
 
 ### Utility Commands
 
@@ -100,7 +100,7 @@ Core workflow commands (use the short form for autocomplete):
 | Skill | Description |
 |-------|-------------|
 | `andrew-kane-gem-writer` | Write Ruby gems following Andrew Kane's patterns |
-| `codify-docs` | Capture solved problems as categorized documentation |
+| `compound-docs` | Capture solved problems as categorized documentation |
 | `create-agent-skills` | Expert guidance for creating Claude Code skills |
 | `dhh-ruby-style` | Write Ruby/Rails code in DHH's 37signals style |
 | `dspy-ruby` | Build type-safe LLM applications with DSPy.rb |

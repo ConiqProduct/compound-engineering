@@ -5,6 +5,17 @@ All notable changes to the compounding-engineering plugin will be documented in 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2025-11-27
+
+### Changed
+
+- **`/codify` → `/compound`** - Renamed the documentation command to better reflect the compounding engineering philosophy. Each documented solution compounds your team's knowledge. The old `/codify` command still works but shows a deprecation notice and calls `/compound`.
+- **`codify-docs` → `compound-docs`** - Renamed the skill to match the new command name.
+
+### Updated
+
+- All documentation, philosophy sections, and references updated to use `/compound` and `compound-docs`
+
 ## [2.6.2] - 2025-11-27
 
 ### Improved
