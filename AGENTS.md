@@ -9,6 +9,7 @@ This repository contains a Bun/TypeScript CLI that converts Claude Code plugins 
 - **Testing:** Run `bun test` after changes that affect parsing, conversion, or output.
 - **Output Paths:** Keep OpenCode output at `opencode.json` and `.opencode/{agents,skills,plugins}`.
 - **ASCII-first:** Use ASCII unless the file already contains Unicode.
+- **Accessibility:** All HTML, CSS, and JavaScript MUST follow WCAG 2.1 Level AA guidelines. See accessibility requirements in CLAUDE.md for detailed checklist.
 
 ## Adding a New Target Provider (e.g., Codex)
 
@@ -35,6 +36,7 @@ Use this checklist when introducing a new target provider:
 
 5. **Docs**
    - Update README with the new `--to` option and output locations.
+   - Ensure all HTML documentation meets WCAG 2.1 Level AA accessibility standards.
 
 ## When to Add a Provider
 

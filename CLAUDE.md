@@ -36,6 +36,93 @@ When working on this repository, follow the compounding engineering process:
 3. **Assess** → Verify changes work as expected
 4. **Codify** → Update this CLAUDE.md with learnings
 
+## Accessibility Requirements
+
+**All code, documentation, and interfaces MUST be built according to WCAG 2.1 Level AA accessibility guidelines and best practices.**
+
+Accessibility is not optional—it's a core requirement that ensures our tools are usable by everyone. When building or modifying any component, follow these requirements:
+
+### Web Content Accessibility Guidelines (WCAG 2.1 Level AA)
+
+#### 1. Perceivable
+- **Text Alternatives**: All images, icons, and non-text content must have descriptive alt text
+- **Captions**: Video content must include captions or transcripts
+- **Color Contrast**: Text must meet contrast ratios (4.5:1 for normal text, 3:1 for large text)
+- **Text Resizing**: Content must be readable when text is resized up to 200% without horizontal scrolling
+- **Audio Control**: Auto-playing audio must have controls to pause/stop
+
+#### 2. Operable
+- **Keyboard Navigation**: All functionality must be accessible via keyboard (no mouse-only interactions)
+- **Focus Indicators**: Visible focus indicators for all interactive elements
+- **No Seizure Triggers**: No content that flashes more than 3 times per second
+- **Navigation**: Clear navigation structure with logical heading hierarchy (h1 → h2 → h3)
+- **Skip Links**: Provide skip navigation links for keyboard users
+- **Time Limits**: If time limits exist, provide options to extend or disable them
+
+#### 3. Understandable
+- **Language**: Set `lang` attribute on HTML element (e.g., `<html lang="en">`)
+- **Labels**: All form inputs must have associated labels
+- **Error Messages**: Clear, descriptive error messages with suggestions for correction
+- **Consistency**: Navigation and UI patterns should be consistent across pages
+- **Instructions**: Provide clear instructions for complex interactions
+
+#### 4. Robust
+- **Semantic HTML**: Use semantic HTML5 elements (`<nav>`, `<main>`, `<article>`, `<section>`, `<header>`, `<footer>`)
+- **ARIA Labels**: Use ARIA attributes when semantic HTML isn't sufficient (`aria-label`, `aria-labelledby`, `aria-describedby`)
+- **Form Associations**: Use `for` attributes or `aria-labelledby` to associate labels with inputs
+- **Landmarks**: Use ARIA landmarks (`role="navigation"`, `role="main"`, `role="contentinfo"`) when needed
+- **Valid HTML**: Ensure HTML validates and works with assistive technologies
+
+### Implementation Checklist
+
+When creating or modifying HTML/CSS/JS:
+
+- [ ] All images have descriptive `alt` attributes (or `aria-hidden="true"` for decorative images)
+- [ ] All form inputs have associated `<label>` elements or `aria-label` attributes
+- [ ] All interactive elements are keyboard accessible (test with Tab key)
+- [ ] All interactive elements have visible focus indicators
+- [ ] Color contrast meets WCAG AA standards (use tools like WebAIM Contrast Checker)
+- [ ] HTML uses semantic elements (`<nav>`, `<main>`, `<article>`, `<section>`, etc.)
+- [ ] Page has proper heading hierarchy (h1 → h2 → h3, no skipping levels)
+- [ ] Page has `<html lang="en">` attribute set
+- [ ] All icons used for functionality have `aria-label` or are wrapped in labeled buttons
+- [ ] Skip navigation link present for keyboard users (if page has navigation)
+- [ ] Error messages are clear and associated with form fields using `aria-describedby`
+- [ ] Dynamic content changes are announced to screen readers (use `aria-live` regions)
+- [ ] All links have descriptive text (avoid "click here" or "read more" without context)
+
+### Testing Accessibility
+
+Before committing changes:
+
+1. **Keyboard Testing**: Navigate entire interface using only keyboard (Tab, Enter, Space, Arrow keys)
+2. **Screen Reader Testing**: Test with at least one screen reader (NVDA, JAWS, VoiceOver, or Narrator)
+3. **Color Contrast**: Verify contrast ratios using browser DevTools or online tools
+4. **HTML Validation**: Validate HTML structure using W3C Validator
+5. **Automated Tools**: Run accessibility audits using:
+   - Browser DevTools Lighthouse accessibility audit
+   - axe DevTools browser extension
+   - WAVE browser extension
+
+### Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
+- [A11y Project Checklist](https://www.a11yproject.com/checklist/)
+- [MDN Accessibility Guide](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+
+### Documentation Accessibility
+
+When creating documentation:
+
+- Use clear, simple language
+- Provide code examples with syntax highlighting
+- Include alt text for all diagrams and screenshots
+- Structure content with proper heading hierarchy
+- Use descriptive link text (not "click here")
+- Ensure documentation site itself meets WCAG AA standards
+
 ## Working with This Repository
 
 ### Adding a New Plugin

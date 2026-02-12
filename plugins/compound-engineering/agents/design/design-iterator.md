@@ -176,7 +176,7 @@ For each iteration, output:
 - Don't undo good changes from previous iterations
 - Build progressively - early iterations focus on structure, later on polish
 - Always preserve existing functionality
-- Keep accessibility in mind (contrast ratios, semantic HTML)
+- **Accessibility is mandatory** - All changes must maintain WCAG 2.1 Level AA compliance (semantic HTML, proper ARIA labels, keyboard navigation, color contrast ≥4.5:1, focus indicators, form labels, alt text for images). See CLAUDE.md for full accessibility requirements.
 - If something looks good, leave it alone - resist the urge to "improve" working elements
 
 ## Starting an Iteration Cycle
