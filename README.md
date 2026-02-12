@@ -1,86 +1,109 @@
-# Compound Marketplace
+# Compound Engineering
 
-[![Build Status](https://github.com/EveryInc/compound-engineering-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/EveryInc/compound-engineering-plugin/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/@every-env/compound-plugin)](https://www.npmjs.com/package/@every-env/compound-plugin)
+> Each unit of engineering work should make subsequent units easier — not harder.
 
-A Claude Code plugin marketplace featuring the **Compound Engineering Plugin** — tools that make each unit of engineering work easier than the last.
+A project-agnostic AI workflow system for engineers. Add it to any project and get structured workflows: **Plan → Work → Review → Compound**.
 
-## Claude Code Install
+Works with Cursor, Claude Code, GitHub Copilot, Codex, or any AI assistant that can read markdown.
 
-```bash
-/plugin marketplace add https://github.com/EveryInc/compound-engineering-plugin
-/plugin install compound-engineering
-```
+---
 
-## OpenCode + Codex (experimental) Install
+## Quick install
 
-This repo includes a Bun/TypeScript CLI that converts Claude Code plugins to OpenCode and Codex.
+Add to **any existing project** (one command):
 
 ```bash
-# convert the compound-engineering plugin into OpenCode format
-bunx @every-env/compound-plugin install compound-engineering --to opencode
-
-# convert to Codex format
-bunx @every-env/compound-plugin install compound-engineering --to codex
+cd your-project
+git clone https://github.com/ConiqProduct/compound-engineering.git .ai
 ```
 
-Local dev:
+That’s it. The `.ai` folder is now in your project. Plans go in `docs/plans/`, solutions in `docs/solutions/`.
+
+### New project from scratch
 
 ```bash
-bun run src/index.ts install ./plugins/compound-engineering --to opencode
+mkdir my-app && cd my-app
+git init
+git clone https://github.com/ConiqProduct/compound-engineering.git .ai
+# Start building — .ai is ready from day one
 ```
 
-OpenCode output is written to `~/.config/opencode` by default, with `opencode.json` at the root and `agents/`, `skills/`, and `plugins/` alongside it.
-Both provider targets are experimental and may change as the formats evolve.
-Codex output is written to `~/.codex/prompts` and `~/.codex/skills`, with each Claude command converted into both a prompt and a skill (the prompt instructs Codex to load the corresponding skill). Generated Codex skill descriptions are truncated to 1024 characters (Codex limit).
+### Optional: Make Cursor use it automatically
 
-## Sync Personal Config
+Add a rule in `.cursor/rules/compound-engineering.mdc` (or your project's rules):
 
-Sync your personal Claude Code config (`~/.claude/`) to OpenCode or Codex:
-
-```bash
-# Sync skills and MCP servers to OpenCode
-bunx @every-env/compound-plugin sync --target opencode
-
-# Sync to Codex
-bunx @every-env/compound-plugin sync --target codex
+```
+When the user says "plan", "work", "review", or "compound", use the corresponding workflow from .ai/commands/ in this project. Reference .ai/agents/ for sub-agent behavior when doing parallel research or review.
 ```
 
-This syncs:
-- Personal skills from `~/.claude/skills/` (as symlinks)
-- MCP servers from `~/.claude/settings.json`
+---
 
-Skills are symlinked (not copied) so changes in Claude Code are reflected immediately.
-
-## Workflow
+## The Loop
 
 ```
 Plan → Work → Review → Compound → Repeat
 ```
 
-| Command | Purpose |
-|---------|---------|
-| `/workflows:plan` | Turn feature ideas into detailed implementation plans |
-| `/workflows:work` | Execute plans with worktrees and task tracking |
-| `/workflows:review` | Multi-agent code review before merging |
-| `/workflows:compound` | Document learnings to make future work easier |
+| Phase        | What happens                                          |
+|-------------|-------------------------------------------------------|
+| **Plan**    | Research the codebase, gather context, write a plan   |
+| **Work**    | Execute the plan systematically, test as you go        |
+| **Review**  | Multi-angle code review (security, perf, architecture)|
+| **Compound**| Document what you learned so future work is faster    |
 
-Each cycle compounds: plans inform future plans, reviews catch more issues, patterns get documented.
+---
+
+## Folder structure
+
+```
+.ai/
+├── README.md           ← You are here
+├── commands/           ← The 4 core workflows
+│   ├── plan.md         ← Turn ideas into actionable plans
+│   ├── work.md         ← Execute plans systematically
+│   ├── review.md       ← Multi-angle code review
+│   └── compound.md     ← Document learnings
+├── agents/             ← Specialized sub-agent instructions
+│   ├── researcher.md   ← Gathers context from codebase + past learnings
+│   ├── reviewer.md     ← Reviews code for quality, security, performance
+│   └── planner.md      ← Analyzes specs for gaps and edge cases
+├── templates/          ← File templates
+├── tutorial/           ← Full HTML tutorial
+└── docs/               ← Living knowledge base (grows over time)
+    ├── plans/          ← Implementation plans
+    └── solutions/      ← Documented solutions
+```
+
+---
+
+## The compounding effect
+
+The magic is in `docs/solutions/`. Every time you solve a non-trivial problem:
+
+1. **First time**: Research, debug, figure it out (30+ min)
+2. **Document it**: Capture the problem, root cause, and fix (5 min)
+3. **Next time**: AI searches `docs/solutions/` and finds the answer (2 min)
+
+Knowledge compounds. The codebase gets easier to work with over time, not harder.
+
+---
+
+## Tutorial
+
+**[Open the full tutorial →](tutorial/index.html)** — An HTML guide that walks through the workflow, all four phases, and how to use this with AI assistants.
+
+---
 
 ## Philosophy
 
-**Each unit of engineering work should make subsequent units easier—not harder.**
+- **80% planning and review, 20% execution** — think before you code
+- **Follow existing patterns** — search the codebase before inventing new ones
+- **Test as you go** — don’t wait until the end
+- **Document non-trivial fixes** — your future self will thank you
+- **YAGNI** — build what you need now, not what you might need later
 
-Traditional development accumulates technical debt. Every feature adds complexity. The codebase becomes harder to work with over time.
+---
 
-Compound engineering inverts this. 80% is in planning and review, 20% is in execution:
-- Plan thoroughly before writing code
-- Review to catch issues and capture learnings
-- Codify knowledge so it's reusable
-- Keep quality high so future changes are easy
+## License
 
-## Learn More
-
-- [Full component reference](plugins/compound-engineering/README.md) - all agents, commands, skills
-- [Compound engineering: how Every codes with agents](https://every.to/chain-of-thought/compound-engineering-how-every-codes-with-agents)
-- [The story behind compounding engineering](https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it)
+MIT

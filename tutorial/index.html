@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Engineering — Tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-elevated: #161b22;
+      --bg-code: #0d1117;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-dim: #388bfd;
+      --success: #3fb950;
+      --warning: #d29922;
+      --error: #f85149;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      margin-bottom: 0.25rem;
+    }
+
+    nav a {
+      display: block;
+      padding: 0.4rem 0.6rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: var(--bg-elevated);
+    }
+
+    nav a.active {
+      color: var(--accent);
+      background: rgba(56, 139, 253, 0.1);
+    }
+
+    nav .nav-section {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 1.5rem 0 0.5rem;
+      padding: 0 0.6rem;
+    }
+
+    nav .nav-section:first-child {
+      margin-top: 0;
+    }
+
+    main {
+      padding: 3rem 4rem 6rem;
+    }
+
+    h1, h2, h3 {
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+      background: linear-gradient(135deg, #fff 0%, #8b949e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      margin: 3.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    h2:first-of-type {
+      margin-top: 0;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin: 2rem 0 0.75rem;
+      color: var(--text);
+    }
+
+    p {
+      margin: 0 0 1rem;
+      color: var(--text);
+    }
+
+    .lead {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      background: var(--bg-elevated);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      border: none;
+      color: var(--text);
+    }
+
+    .prompt {
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 3px solid var(--accent);
+      margin: 1rem 0;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .prompt::before {
+      content: 'You say:';
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      font-style: normal;
+      margin-bottom: 0.25rem;
+    }
+
+    .flow-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      padding: 2rem;
+      background: var(--bg-elevated);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .flow-step {
+      background: var(--bg);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+
+    .flow-step.plan { border-color: #58a6ff; background: rgba(56, 139, 253, 0.08); }
+    .flow-step.work { border-color: #3fb950; background: rgba(63, 185, 80, 0.08); }
+    .flow-step.review { border-color: #d29922; background: rgba(210, 153, 34, 0.08); }
+    .flow-step.compound { border-color: #a371f7; background: rgba(163, 113, 247, 0.08); }
+
+    .flow-arrow {
+      color: var(--text-muted);
+      font-size: 1.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .callout {
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      border-left: 4px solid var(--accent);
+      background: var(--bg-elevated);
+    }
+
+    .callout.tip { border-color: var(--success); }
+    .callout.warning { border-color: var(--warning); }
+    .callout.error { border-color: var(--error); }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    ul, ol {
+      margin: 0 0 1rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      background: var(--accent);
+      color: var(--bg);
+      border-radius: 50%;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    .step {
+      margin-bottom: 1.5rem;
+    }
+
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero {
+      margin-bottom: 3rem;
+    }
+
+    .hero .tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+      }
+
+      nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      nav .nav-section {
+        width: 100%;
+        margin-top: 1rem;
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <ul>
+        <li class="nav-section">Getting Started</li>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#the-loop">The Loop</a></li>
+
+        <li class="nav-section">The Four Phases</li>
+        <li><a href="#phase-plan">Phase 1: Plan</a></li>
+        <li><a href="#phase-work">Phase 2: Work</a></li>
+        <li><a href="#phase-review">Phase 3: Review</a></li>
+        <li><a href="#phase-compound">Phase 4: Compound</a></li>
+
+        <li class="nav-section">Practice</li>
+        <li><a href="#using-with-ai">Using with Your AI</a></li>
+        <li><a href="#example-session">Example Session</a></li>
+        <li><a href="#tips">Tips &amp; Tricks</a></li>
+        <li><a href="#quick-reference">Quick Reference</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <header class="hero">
+        <h1>Compound Engineering</h1>
+        <p class="tagline">A tutorial for engineers — build systems that get easier over time</p>
+      </header>
+
+      <section id="introduction">
+        <h2>Introduction</h2>
+        <p><strong>Compound Engineering</strong> is a workflow system that makes each unit of work easier than the last. Instead of your codebase accumulating complexity and "tech debt" with every feature, knowledge compounds: problems get solved once, documented, and never researched again.</p>
+
+        <p>The system lives in a <code>.ai/</code> folder in your project. It contains markdown instructions that AI coding assistants (Cursor, Claude Code, GitHub Copilot, Codex) can follow. No plugins, no build step, no framework lock-in — just files that guide how you and your AI work together.</p>
+
+        <div class="callout tip">
+          <strong>Works with any stack</strong>
+          Next.js, React Native, Python, Go, Rust, vanilla JS — the system is project-agnostic. The same workflow applies whether you're building a web app, mobile app, or backend service.
+        </div>
+
+        <h3>What you'll learn</h3>
+        <ul>
+          <li>The four-phase workflow: Plan → Work → Review → Compound</li>
+          <li>How to turn vague ideas into actionable plans</li>
+          <li>How to execute plans systematically with AI assistance</li>
+          <li>How to perform multi-angle code reviews</li>
+          <li>How to capture learnings so future work is faster</li>
+          <li>How to integrate this with your day-to-day AI pairing</li>
+        </ul>
+      </section>
+
+      <section id="philosophy">
+        <h2>Philosophy</h2>
+        <p>The core belief: <strong>each unit of engineering work should make subsequent units easier — not harder.</strong></p>
+
+        <p>Traditional development tends to accumulate complexity. Every feature adds code, every bug fix adds edge cases, every shortcut becomes debt. Compound engineering inverts this by investing in:</p>
+
+        <ul>
+          <li><strong>Planning</strong> — 80% thinking, 20% coding. Understand before you build.</li>
+          <li><strong>Pattern following</strong> — Search the codebase before inventing. Reuse what exists.</li>
+          <li><strong>Continuous testing</strong> — Test as you go, not at the end. Catch issues early.</li>
+          <li><strong>Knowledge capture</strong> — Document non-trivial solutions. Your future self will thank you.</li>
+          <li><strong>YAGNI</strong> — Build what you need now, not what you might need later.</li>
+        </ul>
+      </section>
+
+      <section id="the-loop">
+        <h2>The Loop</h2>
+        <p>Every feature or fix flows through four phases that repeat:</p>
+
+        <div class="flow-diagram">
+          <span class="flow-step plan">Plan</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step work">Work</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step review">Review</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step compound">Compound</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step plan">Plan</span>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>What happens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Plan</strong></td>
+              <td>Research the codebase, gather context, search past learnings, write an actionable plan with checkboxes</td>
+            </tr>
+            <tr>
+              <td><strong>Work</strong></td>
+              <td>Execute the plan systematically — follow patterns, test continuously, commit incrementally</td>
+            </tr>
+            <tr>
+              <td><strong>Review</strong></td>
+              <td>Multi-angle code review: architecture, security, performance, simplicity, pattern consistency</td>
+            </tr>
+            <tr>
+              <td><strong>Compound</strong></td>
+              <td>Document what you learned. The solution goes into <code>docs/solutions/</code> so the next occurrence takes 2 minutes instead of 30</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>The compounding effect is the key: problems get solved once, documented, and then found instantly when they recur. Knowledge builds up instead of being rediscovered every time.</p>
+      </section>
+
+      <section id="phase-plan">
+        <h2>Phase 1: Plan</h2>
+        <p>Turning a vague idea into an actionable plan. The goal: <strong>no coding yet</strong>. Just research, clarify, and write.</p>
+
+        <h3>When to plan</h3>
+        <ul>
+          <li>New feature request</li>
+          <li>Bug that needs investigation</li>
+          <li>Refactoring or architecture change</li>
+          <li>Integration with a new service or API</li>
+        </ul>
+
+        <h3>How it works</h3>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">1</span>Refine the idea</div>
+          <p>Ask 2–3 focused questions: What's the goal? Who's affected? What constraints exist? If the description is already clear, offer to skip.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">2</span>Research</div>
+          <p>The AI (or you) searches the codebase for existing patterns, reads project config, and — importantly — searches <code>docs/solutions/</code> for any previously documented solutions. Past learnings prevent repeated mistakes.</p>
+          <p>External research (docs, best practices) runs only when needed: unfamiliar APIs, security-sensitive work, or new technology.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">3</span>Analyze the spec</div>
+          <p>Map user flows (happy path, error paths, edge cases). Identify gaps. Flag technical challenges. Recommend MVP scope.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">4</span>Write the plan</div>
+          <p>Create a file at <code>docs/plans/YYYY-MM-DD-&lt;type&gt;-&lt;short-description&gt;-plan.md</code>. Use the template. Include:</p>
+          <ul>
+            <li>Research findings (what patterns to follow)</li>
+            <li>Past learnings (gotchas from docs/solutions/)</li>
+            <li>Tasks with checkboxes</li>
+            <li>Acceptance criteria</li>
+          </ul>
+        </div>
+
+        <div class="prompt">
+          Plan a feature that lets users export their data as CSV. I'm thinking it could go in the settings page.
+        </div>
+
+        <div class="callout tip">
+          <strong>Detail level</strong> Choose minimal (bugs, small changes), standard (most features), or comprehensive (major features, architecture). Start smaller — you can always deepen the plan.
+        </div>
+      </section>
+
+      <section id="phase-work">
+        <h2>Phase 2: Work</h2>
+        <p>Execute the plan systematically. The plan is your guide — follow it, don't reinvent.</p>
+
+        <h3>How it works</h3>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">1</span>Read and clarify</div>
+          <p>Read the full plan. Review referenced files. Ask clarifying questions <em>now</em> if anything is unclear. Better to ask than build the wrong thing.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">2</span>Set up branch</div>
+          <p>Create a feature branch: <code>feat/short-description</code>, <code>fix/short-description</code>, or <code>refactor/short-description</code>.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">3</span>Task loop</div>
+          <p>For each task in the plan:</p>
+          <ol>
+            <li>Read referenced files</li>
+            <li>Find similar patterns in the codebase</li>
+            <li>Implement following those patterns</li>
+            <li>Write tests</li>
+            <li>Run tests</li>
+            <li>Check off the checkbox in the plan file</li>
+            <li>Commit when a logical unit is complete</li>
+          </ol>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">4</span>Quality check</div>
+          <p>Before creating a PR: all tasks done, tests pass, lint passes, no console errors. For complex changes, run a review (Phase 3) first.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-number">5</span>Ship</div>
+          <p>Push, create PR, summarize what was built and link to it.</p>
+        </div>
+
+        <div class="callout warning">
+          <strong>Avoid 80% done syndrome</strong> Finish the feature completely before moving on. A shipped feature beats a "mostly done" one.
+        </div>
+      </section>
+
+      <section id="phase-review">
+        <h2>Phase 3: Review</h2>
+        <p>Multi-angle code review. One pass, multiple perspectives: architecture, security, performance, simplicity, pattern consistency.</p>
+
+        <h3>What gets reviewed</h3>
+        <ul>
+          <li><strong>Architecture</strong> — Boundaries respected? No circular deps? Right abstraction levels?</li>
+          <li><strong>Security</strong> — Input validation? No hardcoded secrets? Auth on endpoints? Injection risks?</li>
+          <li><strong>Performance</strong> — N+1 queries? O(n²) algorithms? Unbounded data structures?</li>
+          <li><strong>Simplicity</strong> — YAGNI pass. Can anything be removed? Premature abstractions?</li>
+          <li><strong>Patterns</strong> — Follows existing conventions? Consistent naming and structure?</li>
+        </ul>
+
+        <h3>Severity levels</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Critical</strong></td>
+              <td>Security issue, data loss risk, breaking change — must fix before merge</td>
+            </tr>
+            <tr>
+              <td><strong>Important</strong></td>
+              <td>Performance, architecture, significant quality — should fix</td>
+            </tr>
+            <tr>
+              <td><strong>Minor</strong></td>
+              <td>Style, small optimizations, docs — nice to have</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Every finding should include a file path, line reference, and suggested fix. Be actionable.</p>
+      </section>
+
+      <section id="phase-compound">
+        <h2>Phase 4: Compound</h2>
+        <p>Document what you learned. This is what makes the system compound — problems get solved once, documented, and found instantly next time.</p>
+
+        <h3>When to document</h3>
+        <ul>
+          <li>Debugging that took multiple attempts</li>
+          <li>Non-obvious solution</li>
+          <li>Tricky config or setup</li>
+          <li>Gotcha that would bite someone again</li>
+        </ul>
+
+        <h3>When not to document</h3>
+        <ul>
+          <li>Simple typos or syntax errors</li>
+          <li>Obvious fixes</li>
+          <li>Trivial one-line changes</li>
+        </ul>
+
+        <h3>What goes in a solution doc</h3>
+        <ul>
+          <li><strong>Problem</strong> — Exact error messages, observable symptoms</li>
+          <li><strong>Investigation</strong> — What was tried and didn't work, root cause</li>
+          <li><strong>Solution</strong> — What fixed it, with code</li>
+          <li><strong>Prevention</strong> — How to avoid next time</li>
+          <li><strong>Related</strong> — Links to other docs, PRs, issues</li>
+        </ul>
+
+        <p>Files go in <code>docs/solutions/&lt;category&gt;/</code> — e.g. <code>performance/</code>, <code>build-errors/</code>, <code>runtime-errors/</code>.</p>
+
+        <div class="callout tip">
+          <strong>The compounding math</strong> First occurrence: research 30 min. Document: 5 min. Next occurrence: search docs 2 min. Third: AI finds it in 30 sec. Knowledge compounds.
+        </div>
+      </section>
+
+      <section id="using-with-ai">
+        <h2>Using with Your AI</h2>
+        <p>The system works with any AI coding assistant. You reference the commands by name. The AI reads the markdown instructions in <code>.ai/commands/</code> and follows them.</p>
+
+        <h3>How to invoke</h3>
+        <p>Depending on your tool, you might say:</p>
+
+        <ul>
+          <li><strong>Cursor:</strong> "Follow the plan workflow from .ai/commands/plan.md" or "Let's plan this feature — use the compound engineering plan workflow"</li>
+          <li><strong>Claude Code:</strong> If you've set up custom commands, "/plan [description]"</li>
+          <li><strong>Generic:</strong> "Use the compound engineering workflow to plan [X]"</li>
+        </ul>
+
+        <h3>Pro tip: Add to your project rules</h3>
+        <p>In Cursor, add a rule that says something like:</p>
+        <pre><code>When the user says "plan", "work", "review", or "compound", 
+use the corresponding workflow from .ai/commands/ in this project.
+Reference .ai/agents/ for sub-agent behavior when spawning parallel work.</code></pre>
+
+        <p>That way the AI knows to look in <code>.ai/</code> when you use these words.</p>
+      </section>
+
+      <section id="example-session">
+        <h2>Example Session</h2>
+        <p>Here's what a full cycle looks like in practice.</p>
+
+        <h3>1. You want to add dark mode</h3>
+        <div class="prompt">
+          Plan adding dark mode to the app. We use Next.js and Tailwind. I want a toggle in the header.
+        </div>
+        <p>AI runs research: finds existing theme setup (or lack thereof), Tailwind dark mode docs, checks docs/solutions for past theme-related fixes. Writes plan at <code>docs/plans/2026-02-10-feat-dark-mode-toggle-plan.md</code>.</p>
+
+        <h3>2. You start working</h3>
+        <div class="prompt">
+          Work on docs/plans/2026-02-10-feat-dark-mode-toggle-plan.md
+        </div>
+        <p>AI creates branch, follows plan tasks, checks off items, commits incrementally, runs tests. You get a PR.</p>
+
+        <h3>3. You want a review</h3>
+        <div class="prompt">
+          Review the dark mode PR
+        </div>
+        <p>AI runs multi-angle review, surfaces findings by severity, suggests fixes.</p>
+
+        <h3>4. You hit a weird Tailwind bug</h3>
+        <p>After some debugging, you fix it. You say: "that worked — the dark: class wasn't being applied because of the CSS layer order."</p>
+        <div class="prompt">
+          Document this — it was a Tailwind dark mode CSS layer ordering issue
+        </div>
+        <p>AI creates <code>docs/solutions/config/tailwind-dark-mode-css-layer-order.md</code>. Next time someone hits the same issue, it's a 2-minute lookup.</p>
+      </section>
+
+      <section id="tips">
+        <h2>Tips &amp; Tricks</h2>
+        <ul>
+          <li><strong>Start small</strong> — Use minimal plans for bugs and small changes. Scale up only when needed.</li>
+          <li><strong>Reference files explicitly</strong> — Plans that say "follow pattern in src/components/Button.tsx" work better than "follow existing patterns."</li>
+          <li><strong>Document liberally</strong> — When in doubt, document. The cost of an extra doc is low; the cost of re-researching is high.</li>
+          <li><strong>Search before building</strong> — Before implementing, grep for similar features. Don't reinvent.</li>
+          <li><strong>Check off as you go</strong> — Update the plan file's checkboxes. It keeps you and the AI oriented.</li>
+        </ul>
+      </section>
+
+      <section id="quick-reference">
+        <h2>Quick Reference</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>When to use</th>
+              <th>Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Plan</strong></td>
+              <td>New feature, bug to investigate, refactor</td>
+              <td><code>docs/plans/YYYY-MM-DD-*-plan.md</code></td>
+            </tr>
+            <tr>
+              <td><strong>Work</strong></td>
+              <td>Execute a plan</td>
+              <td>Branch, commits, PR</td>
+            </tr>
+            <tr>
+              <td><strong>Review</strong></td>
+              <td>Before merge, or on complex changes</td>
+              <td>Findings by severity with fixes</td>
+            </tr>
+            <tr>
+              <td><strong>Compound</strong></td>
+              <td>After solving non-trivial problem</td>
+              <td><code>docs/solutions/&lt;category&gt;/*.md</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>File locations</h3>
+        <pre><code>.ai/
+├── commands/   # Plan, work, review, compound
+├── agents/     # Researcher, reviewer, planner
+├── templates/  # Plan and solution templates
+└── docs/
+    ├── plans/     # Your implementation plans
+    └── solutions/ # Your compounded knowledge</code></pre>
+      </section>
+
+      <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem;">
+        <p>Compound Engineering — built for any project. No plugins, no lock-in. Just markdown and a workflow.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Highlight active nav section on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    function updateActiveNav() {
+      const scrollY = window.scrollY;
+      let current = '';
+
+      sections.forEach(section => {
+        const top = section.offsetTop - 100;
+        const height = section.offsetHeight;
+        if (scrollY >= top && scrollY < top + height) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+  </script>
+</body>
+</html>
